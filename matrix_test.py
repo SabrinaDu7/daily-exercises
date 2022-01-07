@@ -1,14 +1,19 @@
 import sys
 
-# condition 1: check if start point coordinates == endpoint coordinates
-# condition 2: check if the tile start point is moving to goes off the board/ passes the edge
-# condition 3: check if the tile start point is moving to is False
-# condition 4: check if the tile start point is moving to has been passed through by previous start points.
+# ----------------------------------------------------- Problem context + how to approach problem
+
+"""Question: You are on a checkered board. On each tile is a door that is either locked (False) or open (True). 
+You are given an endpoint and a start point and may only pass through open doors. What is the minimum number of steps 
+that you can take to reach the endpoint from the start point. Return 'Null' if there is no way to reach endpoint. """
+# condition 1: check if start point coordinates == endpoint coordinates.
+# condition 2: check if your next move will go off the board.
+# condition 3: check if your next move lands on locked door (False).
+# condition 4: check if your next move lands on a tile you have been through already (to avoid going in circles).
+
+# ----------------------------------------------------- Functions
 
 
 def hardcoded_board():
-    # arr[row][col]
-    # arr[row]
 
     arr = [[True, True, True, True],
            [True, True, False, True],
@@ -76,22 +81,22 @@ def find_paths(start_row, start_col, end_row, end_col, array):
         return
 
     if start_col != 0 and array[start_row][start_col - 1]:
-        if went_same_coordinates_already([start_row, start_col - 1]) is False:  # if start point can move left
+        if went_same_coordinates_already([start_row, start_col - 1]) is False:  # if can move left from current tile
             coordinates_list.append([start_row, start_col])
             find_paths(start_row, start_col - 1, end_row, end_col, array)
 
     if start_row != 0 and array[start_row - 1][start_col]:
-        if went_same_coordinates_already([start_row - 1, start_col]) is False:  # if start point can move up
+        if went_same_coordinates_already([start_row - 1, start_col]) is False:  # if can move up from current tile
             coordinates_list.append([start_row, start_col])
             find_paths(start_row - 1, start_col, end_row, end_col, array)
 
-    if start_col != (len(array[0]) - 1) and array[start_row][start_col + 1]:  # if start point can move right
+    if start_col != (len(array[0]) - 1) and array[start_row][start_col + 1]:  # if can move right from current tile
         if went_same_coordinates_already([start_row, start_col + 1]) is False:
             coordinates_list.append([start_row, start_col])
             find_paths(start_row, start_col + 1, end_row, end_col, array)
 
     if start_row != (len(array) - 1) and array[start_row + 1][start_col]:
-        if went_same_coordinates_already([start_row + 1, start_col]) is False:  # if start point can move down
+        if went_same_coordinates_already([start_row + 1, start_col]) is False:  # if can move down from current tile
             coordinates_list.append([start_row, start_col])
             find_paths(start_row + 1, start_col, end_row, end_col, array)
 
@@ -106,5 +111,6 @@ def find_paths(start_row, start_col, end_row, end_col, array):
         return
 
 
-# -------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------- Running the code
+
 find_paths(start_row_init, start_col_init, end_row_user, end_col_user, my_board)
